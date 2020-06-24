@@ -19,12 +19,12 @@ kubernetes               ClusterIP      10.3.0.1       <none>                   
 my-release-mongodb       ClusterIP      10.3.146.86    <none>                              27017/TCP      17h
 nodejs-mongodb-ovh-svc   LoadBalancer   10.3.183.150   6f985o6ikg.lb.c1.gra7.k8s.ovh.net   80:31861/TCP   19m
 ```
-
+## Overview of the app :
 ![](./assets/Todo-app-presentation.png)
 
 ## How to use this repo?
 
-1. Create an account in OVH (or GCP)
+1. Create an account in OVH (or GCP)<br/>
 https://www.ovh.com/manager/public-cloud/
 2. Go to Managed Kubernetes Service > Create a cluster > Add a basic node inside (like 1-2 vCPU - 7Go Ram or lower)
 3. Get the kubeconfig file and add elements to your ~/.kube/config
@@ -41,8 +41,9 @@ git clone https://github.com/dleurs/nodejs-tsc-mongodb-on-k8s
 cd nodejs-tsc-mongodb-on-k8s;
 ```
 
-5. https://github.com/bitnami/charts/tree/master/bitnami/mongodb
+5. Installing MongoDB on K8S
 ```bash
+# https://github.com/bitnami/charts/tree/master/bitnami/mongodb
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm install my-release bitnami/mongodb 
 # or just : kubectl create -f k8s/1-mongodb-k8s.yaml
@@ -50,6 +51,7 @@ helm install my-release bitnami/mongodb
 6. Get mongoDB password
 ```bash
 export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace default my-release-mongodb -o jsonpath="{.data.mongodb-root-password}" | base64 --decode)
+echo $MONGODB_ROOT_PASSWORD
 ```
 7. Test the database, you may have to wait 
 ```bash
