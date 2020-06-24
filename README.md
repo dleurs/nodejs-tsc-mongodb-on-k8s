@@ -1,4 +1,5 @@
-# Building a NodeJS TypeScipt app linked to mongoDB hosted on Docker > K8s, online with OVH or GCP
+# NodeJS - MongoDB on K8s
+### Coded in TypeScipt 
 
 To setup Visual Studio Code for Nodejs with TypeScript, with autoreload and VSCode debugging (breakpoints) : <br/>
 https://github.com/dleurs/learn_nodejs_ts
