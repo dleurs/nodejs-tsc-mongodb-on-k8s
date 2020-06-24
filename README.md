@@ -1,8 +1,9 @@
 # NodeJS - MongoDB on K8s
-### Coded in TypeScipt 
+## Basic todo app, CRUD, coded in TypeScipt 
 
 To setup Visual Studio Code for Nodejs with TypeScript, with autoreload and VSCode debugging (breakpoints) : <br/>
 https://github.com/dleurs/learn_nodejs_ts
+
 
 ```bash
 $ kubectl get pod
@@ -19,11 +20,10 @@ my-release-mongodb       ClusterIP      10.3.146.86    <none>                   
 nodejs-mongodb-ovh-svc   LoadBalancer   10.3.183.150   6f985o6ikg.lb.c1.gra7.k8s.ovh.net   80:31861/TCP   19m
 ```
 
+![](./assets/Todo-app-presentation.png)
 
 
-
-
-
+## Some command I used in this project 
 
 helm install my-release bitnami/mongodb
 export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace default my-release-mongodb -o jsonpath="{.data.mongodb-root-password}" | base64 --decode)
