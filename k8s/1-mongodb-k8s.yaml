@@ -1,3 +1,4 @@
+# helm install 
 # helm template my-release bitnami/mongodb --debug --dry-run > mongodb-k8s.yaml
 ---
 # Source: mongodb/templates/serviceaccount.yaml
