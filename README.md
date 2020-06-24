@@ -22,6 +22,68 @@ nodejs-mongodb-ovh-svc   LoadBalancer   10.3.183.150   6f985o6ikg.lb.c1.gra7.k8s
 
 ![](./assets/Todo-app-presentation.png)
 
+## How to use this repo?
+
+1. Create an account in OVH (or GCP)
+https://www.ovh.com/manager/public-cloud/
+2. Go to Managed Kubernetes Service > Create a cluster > Add a basic node inside (like 1-2 vCPU - 7Go Ram or lower)
+3. Get the kubeconfig file and add elements to your ~/.kube/config
+4. 
+```bash 
+kubectl get node
+NAME         STATUS   ROLES    AGE   VERSION
+ovh-node-1   Ready    <none>   18h   v1.18.1
+```
+
+5.
+```bash 
+git clone https://github.com/dleurs/nodejs-tsc-mongodb-on-k8s
+cd nodejs-tsc-mongodb-on-k8s;
+```
+
+5. https://github.com/bitnami/charts/tree/master/bitnami/mongodb
+```bash
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install my-release bitnami/mongodb 
+# or just : kubectl create -f k8s/1-mongodb-k8s.yaml
+```
+6. Get mongoDB password
+```bash
+export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace default my-release-mongodb -o jsonpath="{.data.mongodb-root-password}" | base64 --decode)
+```
+7. Test the database, you may have to wait 
+```bash
+kubectl run --namespace default my-release-mongodb-client --rm --tty -i --restart='Never' --image docker.io/bitnami/mongodb:4.2.8-debian-10-r7 --command -- mongo admin --host my-release-mongodb --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
+```
+6.
+```bash
+docker build . -t <yourdockeriopseudo>/nodejs-mongodb-todo-app:1.0.0
+```
+7. 
+```bash
+docker push <yourdockeriopseudo>/nodejs-mongodb-todo-app:1.0.0
+```
+8. Modify k8s/2-nodejs-deploy-svc.yaml
+```bash
+change lines :
+# Put Docker IO Pseudo 
+- image: <yourpseudo>/nodejs-mongodb-todo-app:1.0.0  
+# Put database password
+value: "mongodb://root:PASSWORD@my-release-mongodb.default.svc.cluster.local:27017/myProject?authSource=admin"  
+``` 
+
+```bash
+kubectl create -f k8s/2-nodejs-deploy-svc.yaml
+```
+
+```bash
+kubectl get pod
+kubectl log nodejs-mongodb-123456
+kubectl get svc
+# Wait around 5 minuts for external IP
+curl -v 123456.lb.c1.gra7.k8s.ovh.net
+```
+
 
 ## Some command I used in this project 
 
