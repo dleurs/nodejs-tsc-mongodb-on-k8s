@@ -1,0 +1,1 @@
+# Building a NodeJS TypeScipt app linked to mongoDB hosted on Docker > K8s, online with OVH or GCP
