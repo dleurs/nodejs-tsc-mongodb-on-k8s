@@ -11,7 +11,7 @@ hashRoutes.post('/', async (req, res, __) =>
     try {
         const response = await axios.get(md5HashUrl + "/" + msg);
         console.log(response.data);
-        return res.json({message: response.data});
+        return res.json(response.data);
     } catch (e) {
         console.log("Error, hash-md5.default.svc.cluster.local not reached");
         console.log(e);
